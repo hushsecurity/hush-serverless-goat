@@ -16,5 +16,5 @@ clean:
 
 trigger:
 	@aws --region us-east-1 lambda invoke --function-name hush_goat_lambda out.json
-	@cat out.json
+	@cat out.json && echo
 	@rm out.json
