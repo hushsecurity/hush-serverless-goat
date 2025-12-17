@@ -9,8 +9,7 @@ This project demonstrates the Hush solution for serverless (AWS lambda) deployme
 ### Phase 1: Setup
 1. **Action**: Run the Terraform to deploy an AWS Secret and a Lambda function:
    ```bash
-   terraform init
-   terraform apply -auto-approve
+   make run
 2. **Action**: Fork this repository to your Git account.
 3. **Action**: In the Hush UI, create a Git integration with your account and this repo
 4. **Action**: In the Hush UI, create a Serverless deployment with the new lambda `hush_goat_lambda`
@@ -21,5 +20,5 @@ This project demonstrates the Hush solution for serverless (AWS lambda) deployme
 ### Phase 3: Active Threat (Severity: High)
 1. **Action**: Trigger the Lambda to simulate a serverless execution with an authentication attempt:
    ```bash
-   aws lambda invoke --function-name hush_goat_lambda out.json
+   make trigger
 2. **Result**: The secret’s status is automatically upgraded to High Severity (Active Leak).
