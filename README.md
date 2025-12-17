@@ -11,9 +11,9 @@ This project demonstrates the Hush solution for serverless (AWS lambda) deployme
    ```bash
    terraform init
    terraform apply -auto-approve
-2. **Action**: Clone this repository.
-3. **Action**: In the Hush UI, create a Git integration with this repo
-4. **Action**: In the Hush UI, create a Serverless deployment with the new lambda
+2. **Action**: Fork this repository to your Git account.
+3. **Action**: In the Hush UI, create a Git integration with your account and this repo
+4. **Action**: In the Hush UI, create a Serverless deployment with the new lambda `hush_goat_lambda`
 
 ### Phase 2: Static Detection (Severity: Low)
 1. **Result**: Hush scans the code, identifies the hard-coded secret, and flags it as a **Low Severity** finding.

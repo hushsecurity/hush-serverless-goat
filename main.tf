@@ -10,7 +10,7 @@ resource "aws_secretsmanager_secret" "secret" {
 
 resource "aws_secretsmanager_secret_version" "secret_val" {
   secret_id     = aws_secretsmanager_secret.secret.id
-  secret_string = "actual-secure-value-12345"
+  secret_string = "pat-na1-ffbb9f50-d96b-4abc-84f1-b986617be1b6"
 }
 
 # IAM Role for Lambda
@@ -41,15 +41,14 @@ resource "aws_iam_role_policy" "lambda_secret_policy" {
 
 # The Lambda Function
 resource "aws_lambda_function" "lambda" {
-  filename      = "build/lambda.zip"
-  function_name = "hush_goat_lambda"
-  role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "lambda_function.lambda_handler"
-  runtime       = "python3.12"
+  filename         = "build/lambda.zip"
+  function_name    = "hush_goat_lambda"
+  role             = aws_iam_role.iam_for_lambda.arn
+  handler          = "lambda_function.lambda_handler"
+  runtime          = "python3.12"
+  source_code_hash = filebase64sha256("build/lambda.zip")
 
-  environment {
-    variables = {
-      SECRET_NAME = aws_secretsmanager_secret.secret.name
-    }
+  lifecycle {
+    ignore_changes = [environment]
   }
 }
