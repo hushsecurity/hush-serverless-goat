@@ -26,36 +26,30 @@ resource "aws_iam_role" "iam_for_lambda" {
   })
 }
 
-# Permission to read the Secret
-resource "aws_iam_role_policy" "lambda_secret_policy" {
-  role = aws_iam_role.iam_for_lambda.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Action   = "secretsmanager:GetSecretValue"
-      Effect   = "Allow"
-      Resource = aws_secretsmanager_secret.secret.arn
-    }]
-  })
-}
-
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
   name              = "/aws/lambda/hush_goat_lambda"
   retention_in_days = 3
 }
 
-resource "aws_iam_role_policy" "lambda_logs_policy" {
+resource "aws_iam_role_policy" "lambda_policy" {
   role = aws_iam_role.iam_for_lambda.id
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Action = [
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ]
-      Effect   = "Allow"
-      Resource = "${aws_cloudwatch_log_group.lambda_log_group.arn}:*"
-    }]
+    Statement = [
+      {
+        Action   = "secretsmanager:GetSecretValue"
+        Effect   = "Allow"
+        Resource = aws_secretsmanager_secret.secret.arn
+      },
+      {
+        Action = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Effect   = "Allow"
+        Resource = "${aws_cloudwatch_log_group.lambda_log_group.arn}:*"
+      }
+    ]
   })
 }
 
